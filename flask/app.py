@@ -36,8 +36,10 @@ def messages():
     """
     request_json = request.get_json(force=True)
     message = request_json["message"]
+    app.logger.info('** Message received ** %s' % message)
     digest = hashlib.sha256(message).hexdigest()
     conn.set(digest, message)
+    app.logger.info('** Key - %s - successfully stored **' % digest)
     new_message = {
         "digest": digest
     }
@@ -56,12 +58,16 @@ def decode(digest):
     """ 
 
     message = conn.get(digest)
-    if message is None:
-        abort(404)
-    decoded = {
-        "message": message
-    }
-    return json.dumps(decoded)
+    if message:
+        app.logger.info('** Digest %s found **' % digest)
+        decoded = {
+            "message": message
+        }
+        return json.dumps(decoded)
+    else:
+        app.logger.info('!! Digest %s NOT found !!' % digest)
+        abort(404)        
+    
 
 if __name__ == "__main__":
 
