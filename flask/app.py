@@ -54,7 +54,7 @@ def decode(digest):
             String
 
         Return:
-            json string with message value or 404 if hex digest is not found
+            json string with message value or 404 and error message if hex digest is not found
     """ 
 
     message = conn.get(digest)
@@ -66,7 +66,7 @@ def decode(digest):
         return json.dumps(decoded)
     else:
         app.logger.info('!! Digest %s NOT found !!' % digest)
-        abort(404)        
+        return json.dumps({"err_msg": "Messsage not found!"}), 404        
     
 
 if __name__ == "__main__":
