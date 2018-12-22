@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  flask:
+    build: flask/
+    image: paxos-flask:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1k"
+        max-file: "3"
+    restart: always
+    ports:
+      - "5000:5000"
+  redis-dev:
+    build: redis/
+    image: paxos-redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
