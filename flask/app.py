@@ -26,10 +26,10 @@ dictConfig({
 
 @app.route('/messages', methods = ['POST'])
 def messages():
-    """ Transform incoming string into 256 hash digest
+    """ Ingest json message, transform string into 256 hash digest, store it in database
 
         Args:
-            String
+            None
 
         Return:
             json string with sha 256 hash digest (hexadecimal format)
@@ -51,7 +51,7 @@ def decode(digest):
     """ query for messages
 
         Args:
-            String
+            Hexadecimal string representing digest for message
 
         Return:
             json string with message value or 404 and error message if hex digest is not found
@@ -71,5 +71,6 @@ def decode(digest):
 
 if __name__ == "__main__":
 
-    context = ('localhost.crt', 'localhost.key')    
+    context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+    context.load_cert_chain('localhost.crt', 'localhost.key')   
     app.run(host='0.0.0.0', port=5000, ssl_context=context, threaded=True)     

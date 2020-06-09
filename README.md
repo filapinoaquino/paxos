@@ -10,3 +10,5 @@ Add localhost.key and localhost.crt inside of the flask server folder (use local
 Run docker compose in the project root
 
 ```docker-compose up -d && python /path/to/test.py --domain localhost --port 5000 --cert-path /path/to/localhost.crt```
+
+Testing CodeGuru
